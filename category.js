@@ -76,7 +76,7 @@ const loadThumbnailDetails = id => {
         .then(data => displaythumbnailDetail(data.data[0]))
 }
 
-const displaythumbnailDetail = thumbnail => {
+const displaythumbnailDetail = data => {
     console.log(data.image_url);
     const modalTitle = document.getElementById('thumbnailDetailModalLabel');
     modalTitle.innerText = data.title;
@@ -87,15 +87,14 @@ const displaythumbnailDetail = thumbnail => {
     const authorName = document.getElementById('author-name');
     authorName.innerText = data.author.name ? data.author.name : 'Author name do not found';
 
-    const thumbnailDetail = document.getElementById('thumbnail-details');
+    const thumbnailDetail = document.getElementById('details');
     thumbnailDetail.innerText = data.details;
 
     const totalView = document.getElementById('total-view');
-    totalView.innerText = data.total_view ? tdata.total_view : 'No views found';
+    totalView.innerText = data.total_view ? data.total_view : 'No views found';
 }
 
 
 
 
 loadCategories();
-loadThumbnailDetails();
