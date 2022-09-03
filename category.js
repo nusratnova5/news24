@@ -2,6 +2,8 @@ const loadCategories = () => {
     fetch(`https://openapi.programming-hero.com/api/news/categories`)
         .then(res => res.json())
         .then(data => displayCategories(data.data.news_category))
+        .catch(error => console.log(error))
+
 }
 
 
@@ -18,9 +20,11 @@ const displayCategories = categories => {
     })
 }
 const loadThumbnails = (id) => {
-    fetch(` https://openapi.programming-hero.com/api/news/category/${id}`)
+    const url = ` https://openapi.programming-hero.com/api/news/category/${id}`
+    fetch(url)
         .then(res => res.json())
         .then(data => displayThumbnails(data.data))
+        .catch(error => console.log(error))
 }
 const displayThumbnails = thumbnails => {
     const thumbnailContainer = document.getElementById('thumbnail-container');
@@ -35,13 +39,13 @@ const displayThumbnails = thumbnails => {
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">${thumbnail.title}</h5>
-                            <p class="card-text">${thumbnail.details.slice(0, 300)}</p>
-                            <button onclick="loadThumbnailDetails('${thumbnail.news_id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">show details</button>
-                        <div class="d-flex justify-content-between">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        </div>
+                            <p class="card-text">${thumbnail.details.slice(0, 300)}...</p>
+                            
+                            <div class="d-flex justify-content-between">
+                            <div><img style="height: 30px" class="rounded-circle" src="${thumbnail.author.img}"> <span class="fw-semibold"> ${thumbnail.author.name}</span></div>
+                            <div>${thumbnail.total_view}</div>
+                            <button onclick="loadThumbnailDetails('${thumbnail.category_id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">show details</button>
+            
                         </div>
                     </div>
                 </div>
@@ -50,22 +54,44 @@ const displayThumbnails = thumbnails => {
 
     })
 }
-const loadThumbnailDetails = async id => {
-    const url = ` https://openapi.programming-hero.com/api/news/news_id`;
-    const res = await fetch(url);
-    const data = await res.json();
-    displaythumbnailDetail(data.data);
+
+const toggleSpinner = isLoading => {
+    const loaderSection = document.getElementById('loader');
+    if (isLoading) {
+        loaderSection.classList.remove('d-none');
+    }
+    else {
+        loaderSection.classList.add('d-none');
+    }
+}
+
+
+
+
+
+const loadThumbnailDetails = id => {
+    const url = ` https://openapi.programming-hero.com/api/news/${id}`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displaythumbnailDetail(data.data[0]))
 }
 
 const displaythumbnailDetail = thumbnail => {
-    console.log(thumbnail);
+    console.log(data.image_url);
     const modalTitle = document.getElementById('thumbnailDetailModalLabel');
-    modalTitle.innerText = thumbnail.name;
-    const thumbnailDetails = document.getElementById('thumbnail-detail');
-    thumbnailDetails.innerHTML = `
-    <p>Release Date:${thumbnail.releaseDate ? thumbnail.releaseDate : 'No date found'}
-    `;
+    modalTitle.innerText = data.title;
 
+    const authorImage = document.getElementById('author-img');
+    authorImage.innerHTML = `<img class="img-fluid" src="${data.image_url}" alt="">`
+
+    const authorName = document.getElementById('author-name');
+    authorName.innerText = data.author.name ? data.author.name : 'Author name do not found';
+
+    const thumbnailDetail = document.getElementById('thumbnail-details');
+    thumbnailDetail.innerText = data.details;
+
+    const totalView = document.getElementById('total-view');
+    totalView.innerText = data.total_view ? tdata.total_view : 'No views found';
 }
 
 

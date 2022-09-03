@@ -38,6 +38,14 @@
                 class="d-flex flex-lg-row flex-sm-col justify-content-lg-evenly justify-content-sm-between ">
 
             </div>
+            <!--LOADER-->
+            <section id="loader" class="d-none">
+                <div style="height:400px;" class="d-flex  justify-content-center align-items-center">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </section>
             <!--THUMBNAIL-->
             <div id="thumbnail-container" class="card mb-3" style="max-width: 540px;">
 
@@ -54,6 +62,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="thumbnail-detail" class="modal-body">
+                            <h3 class="mb-3">Author Name: <span id="author-name"></span></h3>
+                            <p id="author-img"></p>
+                            <p id="thumbnail-details"></p>
+                            <h6>Total View: <span id="total-view"></span></h6>
 
                         </div>
                         <div class="modal-footer">
