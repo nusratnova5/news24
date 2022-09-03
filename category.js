@@ -44,7 +44,7 @@ const displayThumbnails = thumbnails => {
                             <div class="d-flex justify-content-between">
                             <div><img style="height: 30px" class="rounded-circle" src="${thumbnail.author.img}"> <span class="fw-semibold"> ${thumbnail.author.name}</span></div>
                             <div>${thumbnail.total_view}</div>
-                            <button onclick="loadThumbnailDetails('${thumbnail.category_id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">show details</button>
+                            <button onclick="loadThumbnailDetails('${thumbnail._id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">show details</button>
             
                         </div>
                     </div>
