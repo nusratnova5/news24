@@ -27,14 +27,17 @@ const loadThumbnails = (id) => {
         .catch(error => console.log(error))
 }
 const displayThumbnails = thumbnails => {
+    const thumbnailCount = document.getElementById('thumbnail-count');
+    thumbnailCount.innerText = thumbnails.length;
+
     const thumbnailContainer = document.getElementById('thumbnail-container');
     thumbnailContainer.innerHTML = ``;
     thumbnails.forEach(thumbnail => {
         const thumbnailDiv = document.createElement('div');
         thumbnailDiv.innerHTML = `
-        <div class="row g-0">
+        <div class="row g-0 p-5">
                     <div class="col-md-4">
-                        <img src="${thumbnail.thumbnail_url}" class="img-fluid rounded-start" alt="...">
+                        <img src="${thumbnail.thumbnail_url}" class="img-fluid rounded" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -44,7 +47,7 @@ const displayThumbnails = thumbnails => {
                             <div class="d-flex justify-content-between">
                             <div><img style="height: 30px" class="rounded-circle" src="${thumbnail.author.img}"> <span class="fw-semibold"> ${thumbnail.author.name}</span></div>
                             <div>${thumbnail.total_view}</div>
-                            <button onclick="loadThumbnailDetails('${thumbnail._id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">show details</button>
+                            <button onclick="loadThumbnailDetails('${thumbnail._id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">Show details</button>
             
                         </div>
                     </div>
