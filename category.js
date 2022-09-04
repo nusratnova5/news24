@@ -28,13 +28,25 @@ const loadThumbnails = (id) => {
         .catch(error => console.log(error))
 }
 const displayThumbnails = thumbnails => {
+
+
+
     const thumbnailCount = document.getElementById('thumbnail-count');
-    thumbnailCount.innerText = thumbnails.length;
+    thumbnailCount.innerText = thumbnails.length ? `${thumbnails.length} data found` : `No data found`;
 
     const thumbnailContainer = document.getElementById('thumbnail-container');
+    //console.log(thumbnailContainer);
     thumbnailContainer.innerHTML = ``;
     thumbnails.forEach(thumbnail => {
+        //console.log(thumbnail.total_view);
         const thumbnailDiv = document.createElement('div');
+        if (typeof (thumbnail.total_view) == 'object') {
+            thumbnailDiv.setAttribute('id', `dv_0`);
+        }
+        else {
+            thumbnailDiv.setAttribute('id', `dv_${thumbnail.total_view}`);
+        }
+        thumbnailDiv.classList.add('sorted-divs');
         thumbnailDiv.innerHTML = `
         <div class="row g-0 p-5">
                     <div class="col-md-4">
@@ -45,20 +57,47 @@ const displayThumbnails = thumbnails => {
                             <h5 class="card-title">${thumbnail.title}</h5>
                             <p class="card-text">${thumbnail.details.slice(0, 300)}...</p>
                             
-                            <div class="d-flex justify-content-between">
-                            <div><img style="height: 30px" class="rounded-circle" src="${thumbnail.author.img}"> <span class="fw-semibold"> ${thumbnail.author.name}</span></div>
-                            <div>${thumbnail.total_view}</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                            <div><img style="height: 30px" class="rounded-circle" src="${thumbnail.author.img}"> <span class="fw-semibold"> ${thumbnail.author.name ? `${thumbnail.author.name}` : `No Author`}</span></div>
+                            <div><i class="fa-solid fa-eye"></i> ${thumbnail.total_view ? `${thumbnail.total_view}` : `No Views`}</div>
                             <button onclick="loadThumbnailDetails('${thumbnail._id}')"href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thumbnailDetailModal">Show details</button>
             
                         </div>
                     </div>
                 </div>
         `
+        //console.log(typeof(thumbnail.total_view));
         thumbnailContainer.appendChild(thumbnailDiv);
-
     })
     toggleSpinner(false);
+    sortChildrenDivsById();
 }
+
+// sorting start
+const sortChildrenDivsById = () => {
+    var parent = document.getElementById('thumbnail-container');
+    //console.log(parent);
+    // get child divs
+    var children = document.getElementsByClassName('sorted-divs');
+    //console.log(children);
+    //console.log(parent);
+    var ids = [], obj, i, len;
+    // build an array of objects that has both the element 
+    // and a parsed div number in it so we can sort
+    for (i = 0, len = children.length; i < len; i++) {
+        obj = {};
+        obj.element = children[i];
+        obj.idNum = parseInt(children[i].id.replace(/[^\d]/g, ""), 10);
+        ids.push(obj);
+    }
+    // sort the array
+    ids.sort(function (a, b) { return (b.idNum - a.idNum); });
+    // append in sorted order
+    for (i = 0; i < ids.length; i++) {
+        parent.appendChild(ids[i].element);
+    }
+}
+
 
 const toggleSpinner = isLoading => {
     const loaderSection = document.getElementById('loader');
