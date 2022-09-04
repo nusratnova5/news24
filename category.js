@@ -14,7 +14,7 @@ const displayCategories = categories => {
         const categoryName = category.category_name;
         const categoryDiv = document.createElement('div');
         categoryDiv.innerHTML = `
-        <button onclick="loadThumbnails('${category.category_id}')">${categoryName}</button>
+        <button class="my-1" onclick="loadThumbnails('${category.category_id}')">${categoryName}</button>
         `
         categoriesContainer.appendChild(categoryDiv);
     })
