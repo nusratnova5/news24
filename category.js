@@ -20,6 +20,7 @@ const displayCategories = categories => {
     })
 }
 const loadThumbnails = (id) => {
+    toggleSpinner(true);
     const url = ` https://openapi.programming-hero.com/api/news/category/${id}`
     fetch(url)
         .then(res => res.json())
@@ -56,6 +57,7 @@ const displayThumbnails = thumbnails => {
         thumbnailContainer.appendChild(thumbnailDiv);
 
     })
+    toggleSpinner(false);
 }
 
 const toggleSpinner = isLoading => {
