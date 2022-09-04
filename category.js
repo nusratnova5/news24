@@ -35,10 +35,8 @@ const displayThumbnails = thumbnails => {
     thumbnailCount.innerText = thumbnails.length ? `${thumbnails.length} data found` : `No data found`;
 
     const thumbnailContainer = document.getElementById('thumbnail-container');
-    //console.log(thumbnailContainer);
     thumbnailContainer.innerHTML = ``;
     thumbnails.forEach(thumbnail => {
-        //console.log(thumbnail.total_view);
         const thumbnailDiv = document.createElement('div');
         if (typeof (thumbnail.total_view) == 'object') {
             thumbnailDiv.setAttribute('id', `dv_0`);
@@ -66,33 +64,24 @@ const displayThumbnails = thumbnails => {
                     </div>
                 </div>
         `
-        //console.log(typeof(thumbnail.total_view));
         thumbnailContainer.appendChild(thumbnailDiv);
     })
     toggleSpinner(false);
     sortChildrenDivsById();
 }
 
-// sorting start
+
 const sortChildrenDivsById = () => {
     var parent = document.getElementById('thumbnail-container');
-    //console.log(parent);
-    // get child divs
     var children = document.getElementsByClassName('sorted-divs');
-    //console.log(children);
-    //console.log(parent);
     var ids = [], obj, i, len;
-    // build an array of objects that has both the element 
-    // and a parsed div number in it so we can sort
     for (i = 0, len = children.length; i < len; i++) {
         obj = {};
         obj.element = children[i];
         obj.idNum = parseInt(children[i].id.replace(/[^\d]/g, ""), 10);
         ids.push(obj);
     }
-    // sort the array
     ids.sort(function (a, b) { return (b.idNum - a.idNum); });
-    // append in sorted order
     for (i = 0; i < ids.length; i++) {
         parent.appendChild(ids[i].element);
     }
@@ -118,6 +107,7 @@ const loadThumbnailDetails = id => {
     fetch(url)
         .then(res => res.json())
         .then(data => displaythumbnailDetail(data.data[0]))
+        .catch(error => console.log(error))
 }
 
 const displaythumbnailDetail = data => {
